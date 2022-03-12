@@ -26,7 +26,7 @@ class Paddle(pygame.sprite.Sprite):
         self.image = pygame.Surface((30, 80))
         self.image.fill(WHITE)
         self.paddle_num = paddle_num
-        self.rect = pygame.Rect((x, y), (30, 80))
+        self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = y
         self.speedy = 0
@@ -49,11 +49,26 @@ class Paddle(pygame.sprite.Sprite):
             self.rect.y += self.speedy
 
 
+class Ball(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface((20, 20))
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
+
+
+
+
+
 all_sprites = pygame.sprite.Group()
-pA = Paddle(40, HEIGHT/2, 1)
-pB = Paddle(760, HEIGHT/2, 2)
+pA = Paddle(40, HEIGHT / 2, 1)
+pB = Paddle(760, HEIGHT / 2, 2)
+ball = Ball(WIDTH / 2, HEIGHT / 2)
 all_sprites.add(pA)
 all_sprites.add(pB)
+all_sprites.add(ball)
 # Game loop
 running = True
 while running:
