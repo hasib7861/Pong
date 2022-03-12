@@ -57,8 +57,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = 590
-        self.speedx = 5
-        self.speedy = 5
+        self.speedx = 3
+        self.speedy = 3
 
     def update(self):
         self.rect.x += self.speedx
@@ -77,19 +77,19 @@ class Ball(pygame.sprite.Sprite):
             self.rect.y = 580
             self.speedy *= -1
 
-
-
+        # Paddle-Ball Collisions
+        for paddle in paddles:
+            if (paddle.rect.x + 30 >= self.rect.x >= paddle.rect.x - 20) and (paddle.rect.y + 50 >= self.rect.y >= paddle.rect.y - 50):
+                self.speedx *= -1
 
 
 all_sprites = pygame.sprite.Group()
 paddles = pygame.sprite.Group()
-balls = pygame.sprite.Group()
 pA = Paddle(40, HEIGHT / 2, 1)
 pB = Paddle(760, HEIGHT / 2, 2)
 ball = Ball(WIDTH / 2, HEIGHT / 2)
 all_sprites.add(pA, pB, ball)
 paddles.add(pA, pB)
-balls.add(ball)
 # Game loop
 running = True
 while running:
