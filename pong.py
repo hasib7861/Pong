@@ -21,24 +21,37 @@ clock = pygame.time.Clock()
 
 
 class Paddle(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, paddle_num):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((30, 80))
         self.image.fill(WHITE)
-        self.x = x
-        self.y = y
-        self.rect = pygame.Rect((self.x, self.y), (30, 80))
-        self.rect.centerx = self.x
-        self.rect.centery = HEIGHT / 2
-        self.speed = 1
+        self.paddle_num = paddle_num
+        self.rect = pygame.Rect((x, y), (30, 80))
+        self.rect.centerx = x
+        self.rect.centery = y
+        self.speedy = 0
 
     def update(self):
-        pass
+        self.speedy = 0
+        if self.paddle_num == 1:
+            keystate = pygame.key.get_pressed()
+            if keystate[pygame.K_w]:
+                self.speedy -= 20
+            if keystate[pygame.K_s]:
+                self.speedy += 20
+            self.rect.y += self.speedy
+        if self.paddle_num == 2:
+            keystate = pygame.key.get_pressed()
+            if keystate[pygame.K_UP]:
+                self.speedy -= 20
+            if keystate[pygame.K_DOWN]:
+                self.speedy += 20
+            self.rect.y += self.speedy
 
 
 all_sprites = pygame.sprite.Group()
-pA = Paddle(40, HEIGHT/2)
-pB = Paddle(760, HEIGHT/2)
+pA = Paddle(40, HEIGHT/2, 1)
+pB = Paddle(760, HEIGHT/2, 2)
 all_sprites.add(pA)
 all_sprites.add(pB)
 # Game loop
