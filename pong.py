@@ -5,7 +5,8 @@ import pygame
 WIDTH = 800
 HEIGHT = 600
 FPS = 30
-score = 0
+score_A = 0
+score_B = 0
 
 # Define colours
 WHITE = (255, 255, 255)
@@ -77,19 +78,21 @@ class Ball(pygame.sprite.Sprite):
         self.rect.centery = 590
         self.speedx = 5
         self.speedy = 5
-        self.score = 0
+        self.score_A = 0
+        self.score_B = 0
 
     def update(self):
-        self.score = 0
+        self.score_A = 0
+        self.score_B = 0
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
         if self.rect.x <= 0:
-            self.score += 1
+            self.score_B += 1
             self.rect.x = 0
             self.speedx *= -1
         elif self.rect.x >= 780:
-            self.score += 1
+            self.score_A += 1
             self.rect.x = 780
             self.speedx *= -1
         elif self.rect.y <= 0:
@@ -126,11 +129,12 @@ while running:
 
     # Update
     all_sprites.update()
-    score += ball.score
+    score_A += ball.score_A
+    score_B += ball.score_B
 
     # Draw / render
     screen.fill(BLACK)
     all_sprites.draw(screen)
-    draw_text(screen, f"Score: {str(score)}", 25, WIDTH / 2, 10)
+    draw_text(screen, f"Score A: {str(score_A)}   Score B: {str(score_B)}", 25, WIDTH / 2, 10)
     # *after* drawing everything, flip the display
     pygame.display.flip()
