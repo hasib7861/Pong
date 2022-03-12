@@ -5,6 +5,7 @@ import pygame
 WIDTH = 800
 HEIGHT = 600
 FPS = 30
+score = 0
 
 # Define colours
 WHITE = (255, 255, 255)
@@ -18,6 +19,15 @@ pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pong")
 clock = pygame.time.Clock()
+font_name = pygame.font.match_font('arial')
+
+
+def draw_text(surf, text, size, x, y):
+    font = pygame.font.Font(font_name, size)
+    text_surface = font.render(text, True, WHITE)
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (x, y)
+    surf.blit(text_surface, text_rect)
 
 
 class Paddle(pygame.sprite.Sprite):
@@ -67,15 +77,19 @@ class Ball(pygame.sprite.Sprite):
         self.rect.centery = 590
         self.speedx = 5
         self.speedy = 5
+        self.score = 0
 
     def update(self):
+        self.score = 0
         self.rect.x += self.speedx
         self.rect.y += self.speedy
 
         if self.rect.x <= 0:
+            self.score += 1
             self.rect.x = 0
             self.speedx *= -1
         elif self.rect.x >= 780:
+            self.score += 1
             self.rect.x = 780
             self.speedx *= -1
         elif self.rect.y <= 0:
@@ -86,6 +100,7 @@ class Ball(pygame.sprite.Sprite):
             self.speedy *= -1
 
         # Paddle-Ball Collisions
+        # TODO: Refine collisions so it looks less buggy
         for paddle in paddles:
             if (paddle.rect.x + 30 >= self.rect.x >= paddle.rect.x - 20) and (paddle.rect.y + 50 >= self.rect.y >= paddle.rect.y - 50):
                 self.speedx *= -1
@@ -111,9 +126,11 @@ while running:
 
     # Update
     all_sprites.update()
+    score += ball.score
 
     # Draw / render
     screen.fill(BLACK)
     all_sprites.draw(screen)
+    draw_text(screen, f"Score: {str(score)}", 25, WIDTH / 2, 10)
     # *after* drawing everything, flip the display
     pygame.display.flip()
