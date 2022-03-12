@@ -67,7 +67,6 @@ class Paddle(pygame.sprite.Sprite):
             self.rect.y = 520
 
 
-
 class Ball(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
@@ -75,7 +74,7 @@ class Ball(pygame.sprite.Sprite):
         self.image.fill(WHITE)
         self.rect = self.image.get_rect()
         self.rect.centerx = x
-        self.rect.centery = 590
+        self.rect.centery = y
         self.speedx = 5
         self.speedy = 5
         self.score_A = 0
