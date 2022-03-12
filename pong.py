@@ -33,6 +33,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def update(self):
         self.speedy = 0
+
         if self.paddle_num == 1:
             keystate = pygame.key.get_pressed()
             if keystate[pygame.K_w]:
@@ -40,6 +41,7 @@ class Paddle(pygame.sprite.Sprite):
             if keystate[pygame.K_s]:
                 self.speedy += 20
             self.rect.y += self.speedy
+
         if self.paddle_num == 2:
             keystate = pygame.key.get_pressed()
             if keystate[pygame.K_UP]:
@@ -47,6 +49,12 @@ class Paddle(pygame.sprite.Sprite):
             if keystate[pygame.K_DOWN]:
                 self.speedy += 20
             self.rect.y += self.speedy
+
+        if self.rect.y <= 0:
+            self.rect.y = 0
+        elif self.rect.y >= 520:
+            self.rect.y = 520
+
 
 
 class Ball(pygame.sprite.Sprite):
@@ -57,8 +65,8 @@ class Ball(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.centery = 590
-        self.speedx = 3
-        self.speedy = 3
+        self.speedx = 5
+        self.speedy = 5
 
     def update(self):
         self.rect.x += self.speedx
